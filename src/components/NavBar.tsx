@@ -1,10 +1,10 @@
 
 
 
-export default function NavBar () {
+const NavBar = () => {
 
     return(
-        <nav style={{display: "flex", justifyContent: "space-around"}}>
+        <nav className="sticky-nav" style={{display: "flex", justifyContent: "space-around"}}>
             <a href="#">Home</a>
             <a href="#">About</a>
             <img id="Logo" src="" alt="" />
@@ -15,3 +15,5 @@ export default function NavBar () {
     )
     
 }
+
+export default NavBar

@@ -8,3 +8,63 @@ a{
   color: rgb(255, 133, 204);
   font-size: 30px;
 }
+#Header{
+  color: rgb(255, 255, 255);
+  font-size: 7em;
+  text-align: end;
+  padding-left: 100px;
+  padding-right: 50px;
+  padding-top: 50px;
+  align-content: center;
+}
+#HeaderP{
+  color: white;
+  font-size: 2em;
+  text-align: end;
+  padding-right: 50px;
+}
+/* .App{
+  background-image: url('./assets/sky.png');
+} */
+.sticky-nav{
+  position: sticky;
+  top: 15px;
+  align-items: center;
+  justify-content: center;
+  text-align: end;
+
+  background-color: white;
+  border-radius: 50px;
+  border: 1px solid black;
+  z-index: 1000;
+}
+.banner-container{
+  overflow: hidden;
+  white-space: nowrap;
+  background-color: rgb(0, 78, 0);
+  padding: 10px;
+  /* width: 100%; */
+  position: relative;
+}
+.banner{
+  display: flex;
+  color: white;
+  font-size: 20px;
+  /* display: inline-block; */
+  white-space: nowrap;
+  /* gap: 40px; */
+  width: 100%;
+  animation: scrollBanner 10s linear infinite;
+}
+.banner span{
+  padding-right: 50px;
+}
+
+@keyframes scrollBanner {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translatex(-100%);
+  }
+} 
