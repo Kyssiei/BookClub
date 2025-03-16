@@ -3,6 +3,7 @@ import React from 'react'
 import NavBar from './components/NavBar.tsx'
 import Header from './components/Header.tsx'
 import MovingBanner from './components/MovingBanner.tsx'
+import JoinPage from './components/JoinPage.tsx'
 import backgroundImg from "./assets/sky.png"
 import './App.css'
 
@@ -14,6 +15,7 @@ function App() {
      <NavBar />
      <Header />
      <MovingBanner />
+     <JoinPage />
     </div>
   )
 }

@@ -2,25 +2,7 @@
 
 
 const MovingBanner: React.FC = () => {
-    // const bannerRef = useRef<HTMLDivElement>(null);
 
-    // useEffect(() => {
-    //     let position = 100;
-    //     const speed = 1;
-
-    //     const moveBanner = () => {
-    //         if (bannerRef.current) {
-    //             position -= speed;
-    //             if (position < -100){
-    //                 position = 100;
-    //             }
-    //             bannerRef.current.style.transform = `translateX(${position}%)`
-    //         }
-    //     };
-    //     const interval = setInterval(moveBanner,200);
-
-    //     return () => clearInterval(interval);
-    // })
     return(
         <div className="banner-container">
             <div className="banner">
