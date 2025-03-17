@@ -1,7 +1,7 @@
 
 
 
-export default function BookSearch () {
+const BookSearch = () => {
 
     return(
         <>
@@ -10,3 +10,5 @@ export default function BookSearch () {
     )
     
 }
+
+export default BookSearch
