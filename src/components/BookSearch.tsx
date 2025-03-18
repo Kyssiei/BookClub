@@ -1,13 +1,21 @@
 import { useState } from "react";
-// import BookCard from "./BookCard.tsx";
-// import {apiKey} from "../services/apiService.ts"
+import "../styles/BookSearch.css"
+
+interface Book {
+    id: string;
+    volumeInfo: {
+        title: string;
+        authors?: string[];
+        imageLinks?: {thumbnail: string};
+    };
+}
 
 
 const BookSearch = () => {
     //State for search input and the results
 
     const [query, setQuery] = useState<string>("");
-    const [books, setBooks] = useState<any[]>([]);
+    const [books, setBooks] = useState<Book[]>([]);
 
     //function to handle input change from users
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -15,97 +23,73 @@ const BookSearch = () => {
     }
 
     //function to fetch books
-    const fetchBooks = async (query: string) => {
-        if (!query.trim()) return; //prevents empty searches
+    const fetchBooks = async (query: string):Promise<Book[]> => {
+        if (!query.trim()) return []; //prevents empty searches
 
         const apiKey = import.meta.env.VITE_API_KEY;
-        const url =`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`;
+        const url =`https://www.googleapis.com/books/v1/volumes?q=${encodeURIComponent(query)}`; //&key=${apiKey}`;
+
+        console.log("Fetching books from:", url);//logging api request 
+        
 
         try {
             const response = await fetch(url);
             const data = await response.json();
-            return data.items || [];
+
+            console.log("API Response:", data);// log api response
+            
+            return Array.isArray(data.items) ? data.items : [];
         } catch (error) {
-            console.error("Error fetching books, error");
+            console.error("Error fetching books", error);
             return [];
         }
     };
 
     //function to handle search button click
+    const [hasSearched, setHasSearched] = useState(false);
+
     const handleSearch = async() => {
+        setHasSearched(true);// mark that the user has searched
         const results = await fetchBooks(query);
         setBooks(results); //store books in state 
     }
 
-    //function to render books or display no results
-    const renderBooks = () => {
-        if(books.length === 0) {
-            return <p>No book found. Try another </p>;
-        }
-
-        return books.map((book, index) => {
-            const { title, authors, imageLinks } = book.volumeInfo;
-            const thumbnail = imageLinks?.thumbnail || "https://via.placeholder.com/150";
-
-            return (
-                <div key={index} id="cardbody">
-                <img
-                    src={thumbnail}
-                    alt={title}
-                    style={{ width: "100%", height: "auto", borderRadius: "8px" }}
-                />
-                <h3>{title}</h3>
-                <p>{authors ? authors.join(", ") : "Unknown Author"}</p>
-            </div>
-            )
-        })
-    } 
-
 
     return(
-        <div style={{
-            display:"flex", 
-            flexDirection:"column", 
-            justifyContent:"center", 
-            alignContent:"center", 
-            alignItems:"center"
-            }}>
-            <div>
-                <h1 id="Header" >Find Your Next Favorite Book</h1>
-            </div>
+        <div className="book-search-container">
+            <h1 id="Header" >Find Your Next Favorite Book</h1>
             <div>
                 <input 
                 type="text" 
                 placeholder="Search for a book"
                 value={query}
                 onChange={handleInputChange}
-                style={{
-                padding: "10px",
-                border:"1px solid black",
-                borderRadius: "50px",
-                width:"600px",
-                fontSize:"1.5em",
-                }}
+                className="book-search-input"
                 />
                 <button 
                 onClick={handleSearch}
-                style={{
-                width:"200px", 
-                borderRadius:"50px", 
-                border:"1px solid black", 
-                backgroundColor:"rgb(255, 133, 204)",
-                padding:"10px",
-                fontSize:"1.5em",
-                color:"white"
-                }}>Search</button>
+                className="book-search-button"
+                >Search
+                </button>
+
             </div>
-            <div 
-                style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-                gap: "20px"
-            }}>
-                {renderBooks()}
+            <div id="card-container">
+                {Array.isArray(books) && books.length > 0 ? (
+                    <div className="results-grid">
+                        {books.map((book) =>{
+                            const { title, authors, imageLinks } = book.volumeInfo;
+                            const thumbnail = imageLinks?.thumbnail || "https://via.placeholder.com/150";
+
+                            return (
+                                <div key={book.id} className="book-card">
+                                    <img src={thumbnail} alt={title || "Untitled"} className="book-image"/>
+                                    <h3>{title || "Untitled"}</h3>
+                                    <p>{authors ? authors.join(",") : "Unknown Author"}</p>
+                                </div>
+                            );
+                        })}
+                    </div>
+                ) : (hasSearched && books.length === 0 && <p>No book found. try another search</p>)}
             </div>
         </div>
     );
