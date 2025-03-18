@@ -5,6 +5,7 @@ import Header from './components/Header.tsx'
 import MovingBanner from './components/MovingBanner.tsx'
 import JoinPage from './components/JoinPage.tsx'
 import backgroundImg from "./assets/sky.png"
+import BookSearch from './components/BookSearch.tsx'
 import './App.css'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
      <Header />
      <MovingBanner />
      <JoinPage />
+     <BookSearch />
     </div>
   )
 }
