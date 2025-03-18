@@ -11,7 +11,7 @@ export async function fetchData(): Promise<ApiResponse | null> {
     }
 
     try {
-        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=flowers+inauthor:keyes&key=${apiKey}`);
+        const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=search+terms:keyes&key=${apiKey}`);
 
         if(!response.ok) {
             console.error("failed to fetch data");
