@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/BookSearch.css"
+import "../styles/BookSearch.css";
 
 interface Book {
     id: string;

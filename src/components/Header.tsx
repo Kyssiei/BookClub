@@ -15,7 +15,7 @@ const Header = () => {
             }}>
             <div>
                 <h1 id="Header">Books <br/> that <br/>Inspire!</h1>
-                <p id="HeaderP">join our book club</p>
+                <p id="HeaderP">Join Our Book Club</p>
             </div>
             <div>
                 <img style={{height:"700px"}} src={img} alt="" />
