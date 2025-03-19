@@ -8,6 +8,14 @@ const MovingBanner: React.FC = () => {
             <div className="banner">
                 <span>Welcome to our Book Club! Join Us Today!</span>
                 <span>Welcome to our Book Club! Join US Today!</span>
+                <span>Welcome to our Book Club! Join Us Today!</span>
+                <span>Welcome to our Book Club! Join Us Today!</span>
+                <span>Welcome to our Book Club! Join Us Today!</span>
+                <span>Welcome to our Book Club! Join Us Today!</span>
+                <span>Welcome to our Book Club! Join Us Today!</span>
+                <span>Welcome to our Book Club! Join Us Today!</span>
+                <span>Welcome to our Book Club! Join Us Today!</span>
+                <span>Welcome to our Book Club! Join Us Today!</span>
             </div>
         </div>
     )

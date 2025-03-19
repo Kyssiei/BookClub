@@ -1,6 +1,7 @@
 #Logo{
   height: 50px;
   width: 50px;
+  
 }
 a{
   margin-top: 20px;
@@ -32,7 +33,7 @@ a{
   align-items: center;
   justify-content: center;
   text-align: end;
-
+/* padding-bottom: 10px; */
   background-color: white;
   border-radius: 50px;
   border: 1px solid black;
