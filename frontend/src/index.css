@@ -1,0 +1,14 @@
+.background{
+    background-image: url("./assets/sky.png");
+    width: 100%;
+}
+.Nav{
+    background-color: white;
+    /* border-radius: 50px; */
+    /* margin-top: 50px; */
+    
+}
+.App{
+    background-image: url('./assets/sky.png');
+  }
+
