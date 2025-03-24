@@ -5,11 +5,12 @@ import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 
-// Routers
-import { healthRouter } from "./routes/health.js";
-
 dotenv.config();
-// console.log(process.env.MONGODB_URI);
+// const app = express();
+// app.use(express.json());
+// app.use(cors());
+
+
 
 // Connect to MongoDB
 await mongoose
