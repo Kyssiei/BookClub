@@ -5,14 +5,15 @@ import jwt from "jsonwebtoken"
 
 
 // register user
-export const registerUser = async (req: Request, res: Response) => {
+export const registerUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
         const {name, email, password} = req.body;
 
         //check to see if user exists
         const userExists = await User.findOne({email})
         if (userExists){
-            return res.status(400).json({message: "You already have an account"})
+            res.status(400).json({message: "You already have an account"});
+            return;
         }
 
         //hash password
@@ -25,9 +26,9 @@ export const registerUser = async (req: Request, res: Response) => {
         res.status(201).json({message: "User registered succesfully"});
 
     } catch (error) {
-        res.status(500).json({message: "There was a server error", error});
+       next(error);
     }
-    // res.json({ message: "Example route working!" });
+   
 };
 
 

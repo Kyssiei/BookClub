@@ -1,19 +1,25 @@
-import express, { Application } from "express";
-// import morgan from "morgan";
+import express, { Application, Request, Response, NextFunction } from "express";
+import morgan from "morgan";
 import helmet from "helmet";
 import dotenv from "dotenv";
 import cors from "cors";
 import mongoose from "mongoose";
 
+// Import Routes
 import authRoutes from "./routes/authRoutes";
 
 dotenv.config();
 
 // Initialize Express
 const app: Application = express();
-app.use(express.json());
-app.use(cors())
 
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(helmet());
+app.use(express.static("./public"));
+app.use(morgan("dev"));
 
 // Connect to MongoDB
 const connectDB = async () => {
@@ -27,16 +33,18 @@ const connectDB = async () => {
 };
 connectDB();
 
-//API routes
+// API routes
 app.use("/api/auth", authRoutes);
-
-//Routes
-// app.use("/api/auth", authRoutes);
-// app.use("/api/users", user)
 
 //Test Route
 app.get("/", (req, res) => {
   res.send("Hey your backend is running")
+})
+
+//Glogal Error Handling Middleware
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  console.error("Error", err.message);
+  res.status(500).json({ message: "Something went wrong!", error: err.message})
 })
 
 //Start Server
@@ -47,46 +55,7 @@ app.listen(PORT, () => {
 
 
 
-// Middlewares
-app.use(express.static("./public"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// app.use(morgan("dev"));
-app.use(helmet());
-app.use(cors());
 
-
-// Global error handling
-// app.use((err, req, res, next) => {
-//   console.error(err);
-//   res.status(500).send("Seems like we messed up somewhere...");
-// });
-
-
-
-
-
-
-
-
-
-
-
-// // Routes
-// app.get("/", (req, res) => {
-//   res.render("index");
-// });
-
-// API Routes
-// app.use("/api/health", healthRouter);
-
-// await mongoose
-//   .connect(process.env.MONGODB_URI)
-//   .then(() => console.log("Connected to MongoDB"))
-//   .catch((e) => console.error(e));
-
-
-// const app = express();
 
 // View Engine
 // app.set("views", "./views");
