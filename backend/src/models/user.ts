@@ -2,6 +2,7 @@ import mongoose, { Document, Schema, Model} from "mongoose";
 
 //interface for typscript
 export interface IUser extends Document {
+    _id: mongoose.Types.ObjectId;
     name: string;
     email: string;
     password: string;
@@ -14,6 +15,7 @@ export interface IUser extends Document {
     };
     createdAt: Date;
     updatedAt: Date;
+    isAdmin?: boolean;
 }
 
 // mongoose schema for user
@@ -29,8 +31,9 @@ const UserSchema = new Schema<IUser>(
             wantToRead: [{type: mongoose.Schema.Types.ObjectId, ref: "Book"}],
             finished: [{type: mongoose.Schema.Types.ObjectId, ref: "Book"}]
         },
+        isAdmin: { type: Boolean, default: false}, 
     },
-    {timestamps: true}// Automatically manages "createdAt" and "updatedAt"
+    {timestamps: true}, // Automatically manages "createdAt" and "updatedAt"
 );
 
 // Create and export model
