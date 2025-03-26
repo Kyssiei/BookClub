@@ -8,19 +8,14 @@ import mongoose from "mongoose";
 // Import Routes
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes"
+import bookRoutes from "./routes/bookRoutes"
+import eventRoutes from "./routes/eventRoutes";
+import disscussionRoutes from "./routes/discussionRoutes"
 
 dotenv.config();
 
 // Initialize Express
 const app: Application = express();
-
-// Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cors());
-app.use(helmet());
-app.use(express.static("./public"));
-app.use(morgan("dev"));
 
 // Connect to MongoDB
 const connectDB = async () => {
@@ -33,15 +28,30 @@ const connectDB = async () => {
   }
 };
 connectDB();
+// console.log("connecting to mongo db", process.env.MONGODB_URI);
+
+
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(helmet());
+app.use(express.static("./public"));
+app.use(morgan("dev"));
+
+//Test Route
+app.get("/", (req: Request, res: Response) => {
+  console.log("root route hit!");
+
+  res.send("Hey your backend is running")
+})
 
 // API routes
 app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes)
-
-//Test Route
-app.get("/", (req, res) => {
-  res.send("Hey your backend is running")
-})
+app.use("/api/users", userRoutes);
+app.use("/api/books", bookRoutes);
+app.use("/api/events", eventRoutes);
+app.use("/api/discussions", disscussionRoutes)
 
 //Glogal Error Handling Middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {

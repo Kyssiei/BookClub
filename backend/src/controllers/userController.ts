@@ -1,5 +1,5 @@
 import { Response } from "express";
-import User, { IUser } from "../models/user";
+import User, {IUser} from "../models/user";
 import { AuthRequest } from "../middleware/authMiddleware";
 import asyncHandler from "express-async-handler"; // Makes sure async errors are caught properly
 

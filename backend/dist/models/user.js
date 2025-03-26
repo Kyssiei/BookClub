@@ -46,8 +46,8 @@ const UserSchema = new mongoose_1.Schema({
         wantToRead: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Book" }],
         finished: [{ type: mongoose_1.default.Schema.Types.ObjectId, ref: "Book" }]
     },
-}, { timestamps: true } // Automatically manages "createdAt" and "updatedAt"
-);
+    isAdmin: { type: Boolean, default: false },
+}, { timestamps: true });
 // Create and export model
 const User = mongoose_1.default.model("User", UserSchema);
 exports.default = User;

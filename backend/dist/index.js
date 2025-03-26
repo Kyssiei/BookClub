@@ -20,6 +20,7 @@ const cors_1 = __importDefault(require("cors"));
 const mongoose_1 = __importDefault(require("mongoose"));
 // Import Routes
 const authRoutes_1 = __importDefault(require("./routes/authRoutes"));
+const userRoutes_1 = __importDefault(require("./routes/userRoutes"));
 dotenv_1.default.config();
 // Initialize Express
 const app = (0, express_1.default)();
@@ -44,6 +45,7 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
 connectDB();
 // API routes
 app.use("/api/auth", authRoutes_1.default);
+app.use("/api/users", userRoutes_1.default);
 //Test Route
 app.get("/", (req, res) => {
     res.send("Hey your backend is running");

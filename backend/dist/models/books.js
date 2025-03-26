@@ -38,8 +38,15 @@ const mongoose_1 = __importStar(require("mongoose"));
 const BookSchema = new mongoose_1.Schema({
     title: { type: String, required: true },
     author: { type: String, required: true },
+    description: { type: String, default: "" },
+    coverImage: { type: String, default: "" }, // URL for the book cover
+    genre: { type: String, default: "Unknown" },
     pageCount: { type: Number, required: true },
-});
+    publishedYear: { type: Number, default: new Date().getFullYear() },
+    ratings: { type: [Number], default: [] }, // Array of user ratings
+    addedBy: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "User" }, // Reference to User
+}, { timestamps: true } // Auto-manage createdAt & updatedAt
+);
 //create and export model 
 const Book = mongoose_1.default.model("Book", BookSchema);
 exports.default = Book;
