@@ -8,9 +8,9 @@ import mongoose from "mongoose";
 export const createEvent = asyncHandler(async (req: AuthRequest, res: Response) => {
     const { title, description, date, isVirtual, virtualLink, location } = req.body;
 
-    if (!req.user) {
+    if (!req.user || !req.user.isAdmin) {
         res.status(401);
-        throw new Error("Not authorized");
+        throw new Error("Not authorized, Admin ");
     }
 
     // Ensure proper fields are set based on event type
@@ -50,20 +50,29 @@ export const rsvpEvent = asyncHandler(async (req: AuthRequest, res: Response) =>
     }
 
     const userId = new mongoose.Types.ObjectId(req.user.id)
+    const isAttending = event.attendees.some(attendee => attendee.equals(userId))
 
-    if (!event.attendees.includes(userId)) {
+    if(isAttending) {
+        event.attendees = event.attendees.filter(attendee => !attendee.equals(userId))
+    } else {
         event.attendees.push(userId);
-        await event.save();
     }
 
-    res.json({ message: "RSVP successful", event });
+    await event.save();
+    res.json({ message: isAttending ? "RSVP removed" : "RSVP successful", event });
+
+    // if (!event.attendees.includes(userId)) {
+    //     event.attendees.push(userId);
+    //     await event.save();
+    // }
+
 });
 
-//  Delete an Event (Fixed Auth Issue)
+//  Delete an Event (Admin Only)
 export const deleteEvent = asyncHandler(async (req: AuthRequest, res: Response) => {
-    if (!req.user) {
+    if (!req.user || !req.user.isAdmin) {
         res.status(401);
-        throw new Error("Not authorized");
+        throw new Error("Admin access required!");
     }
 
     const event = await Event.findById(req.params.id);
@@ -83,9 +92,9 @@ export const deleteEvent = asyncHandler(async (req: AuthRequest, res: Response) 
 
 //  Update an Event (Fixed Auth + Model Issues)
 export const updateEvent = asyncHandler(async (req: AuthRequest, res: Response) => {
-    if (!req.user) {
+    if (!req.user || !req.user.isAdmin) {
         res.status(401);
-        throw new Error("Not authorized");
+        throw new Error("Not authorized, Admin access required");
     }
 
     const event = await Event.findById(req.params.id);
