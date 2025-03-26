@@ -127,3 +127,4 @@ export const getEventById = asyncHandler(async (req: Request, res: Response) => 
 
     res.json(event);
 });
+

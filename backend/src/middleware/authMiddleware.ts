@@ -12,24 +12,37 @@ export const protect = asyncHandler(async (req: AuthRequest, res: Response, next
   let token;
 
   if (req.headers.authorization && req.headers.authorization.startsWith("Bearer")) {
-    token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
+      token = req.headers.authorization.split(" ")[1];
 
-    const user: IUser | null = await User.findById(decoded.id).select("-password");
+      console.log("🔑 Token received:", token); // Log token
 
-    if (!user) {
-      res.status(401);
-      throw new Error("Not authorized, user not found");
-    }
+      try {
+          const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
 
-    req.user = { id: user._id.toString(), isAdmin: user.isAdmin ?? false };
+          const user: IUser | null = await User.findById(decoded.id).select("-password");
 
-    next();
+          if (!user) {
+              res.status(401);
+              throw new Error("Not authorized, user not found");
+          }
+
+          req.user = { id: user._id.toString(), isAdmin: user.isAdmin ?? false };
+
+          console.log("✅ User authenticated:", req.user); // Log user details
+
+          next();
+      } catch (error) {
+          console.error("❌ Invalid Token:", error);
+          res.status(401);
+          throw new Error("Not authorized, token failed");
+      }
   } else {
-    res.status(401);
-    throw new Error("Not authorized, no token provided");
+      console.warn("No token provided");
+      res.status(401);
+      throw new Error("Not authorized, no token provided");
   }
 });
+
 
 
 // ✅ Middleware to Check Admin Role

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/Login.css"; // Import the CSS file
-import loginPic from "../assets/login pic.jpg";
+import NavBar from "../components/NavBar";
+import "../styles/Login.css"; 
+import loginPic from "../assets/Gisele Murias.jpg";
 
 const Login = () => {
     const [email, setEmail] = useState("");
@@ -14,7 +15,7 @@ const Login = () => {
         setError("");
 
         try {
-            const response = await fetch("http://localhost:5000/api/auth/login", {
+            const response = await fetch("http://localhost:3000/api/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -37,7 +38,9 @@ const Login = () => {
     };
 
     return (
-        <div className="login-container">
+        <div>
+            <NavBar />
+             <div className="login-container">
             {/* Left Side - Form */}
             <div className="login-form-section">
                 <div className="login-box">
@@ -81,6 +84,8 @@ const Login = () => {
                 <img src={loginPic} alt="Login Illustration" className="login-image" />
             </div>
         </div>
+        </div>
+       
     );
 };
 

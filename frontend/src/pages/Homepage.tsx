@@ -1,4 +1,5 @@
 import React from "react";
+// import { useState } from "react";
 import { Link } from "react-router-dom";
 import image from "../assets/books.jpg"
 import "../styles/Homepage.css"
@@ -6,6 +7,9 @@ import "../styles/index.css"
 import NavBar from "../components/NavBar";
 import JoinPage from "../components/JoinPage";
 import JoinButton from "../components/JoinButton";
+import BookSearch from "../components/BookSearch";
+import "../styles/BookSearch.css"
+
 
 const Homepage = () => {
   return (
@@ -23,6 +27,7 @@ const Homepage = () => {
           </div>
         </div>
         <JoinPage />
+        <BookSearch />
         
       </div>
   );
