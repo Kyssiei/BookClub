@@ -2,6 +2,37 @@ import { Response } from "express";
 import User, {IUser} from "../models/user";
 import { AuthRequest } from "../middleware/authMiddleware";
 import asyncHandler from "express-async-handler"; // Makes sure async errors are caught properly
+import jwt from "jsonwebtoken"
+import bcrypt from "bcryptjs"
+
+// Generate JWT Token
+const generateToken = (id: string) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET!, { expiresIn: "30d" });
+};
+
+// 🔹 Login User (Public)
+export const loginUser = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {
+    const { email, password } = req.body;
+
+    // Find user by email
+    const user = await User.findOne({ email });
+
+    // Check if user exists and password is correct
+    if (user && (await bcrypt.compare(password, user.password))) {
+        res.json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            profilePic: user.profilePic,
+            bio: user.bio,
+            token: generateToken(user._id.toString()) // Generate token upon login
+        });
+    } else {
+        res.status(401);
+        throw new Error("Invalid email or password");
+    }
+});
 
 // Get Logged-in User Profile (Protected)
 export const getUserProfile = asyncHandler(async (req: AuthRequest, res: Response): Promise<void> => {

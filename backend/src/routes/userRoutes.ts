@@ -1,12 +1,26 @@
 import  express  from "express";
 import { getUserProfile, updateUserProfile, getAllUsers } from "../controllers/userController";
 import { protect, adminOnly } from "../middleware/authMiddleware";
+import { loginUser } from "../controllers/userController"
 
 import User from "../models/user";  // Make sure the path is correct
 import Book from "../models/books";  // Adjust the path if necessary
 import Event from "../models/event";  // Adjust the path if necessary
+import { registerUser } from "../controllers/authController";
 
-const router = express.Router()
+const router = express.Router();
+
+// Register User Route
+router.post("/", registerUser)
+// Test route
+router.post("/", (req, res) => {
+    console.log("Request received at /api/users");
+    console.log("Request body:", req.body);
+    res.send("Route hit successfully");
+});
+// Login User Route
+router.post("/login", loginUser);
+
 
 // Protected Routes (Require Authentication)
 router.get("/profile", protect, getUserProfile);
