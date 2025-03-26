@@ -1,0 +1,42 @@
+.homepage{
+    display: flex;
+    flex-Direction: row;
+    justify-Content: center;
+    background-Size: cover;
+    background-Position: center;       
+}
+#Header{
+    color: rgb(255, 255, 255);
+    font-size: 7vw;
+    /* font-size: 7em; */
+    text-align: end;
+    padding-left: 100px;
+    padding-right: 50px;
+    padding-top: 50px;
+    align-content: center;
+    margin-bottom: 0;
+    /* padding-bottom: none; */
+  }
+  #HeaderP{
+    color: white;
+    font-size: 2vw;
+    text-align: end;
+    padding-top: none;
+    padding-right: 50px;
+  }
+  .title{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: end;
+  }
+  .homepage {
+    background-image: url("../assets/sky.png");
+    background-size: cover; /* This makes the image cover the entire div */
+    background-position: center; /* Centers the background */
+    background-repeat: no-repeat; /* Prevents image repetition */
+    height: 45vw; /* Full screen height */
+    width: 100%;
+    padding-bottom: 20px;
+  }
+  

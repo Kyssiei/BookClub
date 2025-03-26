@@ -15,7 +15,7 @@ const JoinPage: React.FC = () => {
     return(
         <div style={{display:"flex", backgroundColor:"white"}}>
             <div style={{justifyContent:"center", alignItems:"center", marginLeft:"100px"}}>
-                <img style={{height:"700px" }} src={img} />
+                <img style={{height:"auto", width:"50vw" }} src={img} />
             </div>
             <div style={{display:"flex", flexDirection:"column",alignItems:"center"}}>
                 <h1 style={{fontSize:"6em", textAlign:"center"}}  >Join Our Book Club!</h1>
@@ -26,16 +26,6 @@ const JoinPage: React.FC = () => {
 
                 <JoinButton onClick={handleJoinButtonClick} />
                 {showForm && <JoinForm />}
-
-                {/* <button style={{
-                    width:"200px", 
-                    borderRadius:"50px", 
-                    border:"1px solid black", 
-                    backgroundColor:"rgb(255, 133, 204)",
-                    padding:"15px",
-                    fontSize:"1.5em",
-                    color:"white"
-                    }}>Join Now</button> */}
             </div>
         </div>
     )

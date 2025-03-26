@@ -1,25 +1,28 @@
-import { useState } from 'react'
-import React from 'react'
-import NavBar from './components/NavBar.tsx'
-import Header from './components/Header.tsx'
-import MovingBanner from './components/MovingBanner.tsx'
-import JoinPage from './components/JoinPage.tsx'
-import backgroundImg from "./assets/sky.png"
-import BookSearch from './components/BookSearch.tsx'
-import './App.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import AboutUsPage from "./pages/AboutUsPage";
+import AdminPage from "./pages/AdminPage";
+import BookClubPage from "./pages/BookClubPage";
+import Homepage from "./pages/Homepage";
+import UserProfile from "./pages/UserProfile";
+import Login from "./pages/LoginPage";
+import "./styles/index.css"
+import "../src/"
 
-function App() {
-  
-
+const App = () => {
   return (
-    <div style={{backgroundImage: `url(${backgroundImg})`}}>
-     <NavBar />
-     <Header />
-     <MovingBanner />
-     <JoinPage />
-     <BookSearch />
-    </div>
-  )
-}
+    <Router>
+      <Routes>
+        <Route path="/" element={<Homepage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/about" element={<AboutUsPage />} />
+        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/bookclub" element={<BookClubPage />} />
+        <Route path="/profile" element={<UserProfile />} />
+      </Routes>
+    </Router>
+  );
+};
 
-export default App
+export default App 
