@@ -76,4 +76,3 @@ Want to be part of an amazing book-loving community? Join us for an event, share
 
 Let's make reading exciting, engaging, and empowering—**one book at a time!** 🚀💬📚
 ```
-
