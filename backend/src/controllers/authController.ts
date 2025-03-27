@@ -54,7 +54,15 @@ export const userLogin = async (req: Request, res: Response, next: NextFunction)
             expiresIn: "7d",
         });
 
-        res.json({token});
+        res.json({
+            token,
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin ?? false,
+            }
+        });
 
     } catch (error) {
         next(error);

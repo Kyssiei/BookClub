@@ -4,16 +4,21 @@ import Discussion from "../models/discussion";
 import { AuthRequest } from "../middleware/authMiddleware";
 import mongoose from "mongoose";
 
-// Public: Get all discussions
+// ✅ Get all discussions
 export const getAllDiscussions = asyncHandler(async (_req: Request, res: Response) => {
-    const discussions = await Discussion.find().populate("createdBy", "name email");
+    const discussions = await Discussion.find()
+        .populate("createdBy", "name email")
+        .populate("bookId", "title author")
+        .populate("comments.user", "name email");
+
     res.json(discussions);
 });
 
-// Public: Get a single discussion with comments
+// ✅ Get a single discussion with comments
 export const getDiscussionById = asyncHandler(async (req: Request, res: Response) => {
     const discussion = await Discussion.findById(req.params.id)
         .populate("createdBy", "name email")
+        .populate("bookId", "title author")
         .populate("comments.user", "name email");
 
     if (!discussion) {
@@ -24,41 +29,38 @@ export const getDiscussionById = asyncHandler(async (req: Request, res: Response
     res.json(discussion);
 });
 
-// Protected: Create a new discussion
+// ✅ Create a discussion with `bookId`
 export const createDiscussion = asyncHandler(async (req: AuthRequest, res: Response) => {
-    const { title, content } = req.body;
+    const { topic, content, bookId } = req.body;
 
     if (!req.user) {
         res.status(401);
         throw new Error("Not authorized");
     }
 
+    if (!bookId) {
+        res.status(400);
+        throw new Error("Book ID is required to create a discussion");
+    }
+
     const discussion = await Discussion.create({
-        title,
+        topic,
         content,
+        bookId,
         createdBy: req.user.id,
     });
 
     res.status(201).json(discussion);
 });
 
-// Protected: Add a comment to a discussion
+// ✅ Add a comment to a discussion
 export const addComment = asyncHandler(async (req: AuthRequest, res: Response) => {
     const { comment } = req.body;
 
-    if (!req.user || !req.user.id) {
+    if (!req.user) {
         res.status(401);
         throw new Error("Not authorized");
     }
-
-    // Validate if req.user.id is valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(req.user.id)) {
-        res.status(400);
-        throw new Error("Invalid user ID format");
-    }
-
-    // Ensure userId is treated as ObjectId
-    const userId = new mongoose.Types.ObjectId(req.user.id);
 
     const discussion = await Discussion.findById(req.params.id);
     if (!discussion) {
@@ -66,9 +68,29 @@ export const addComment = asyncHandler(async (req: AuthRequest, res: Response) =
         throw new Error("Discussion not found");
     }
 
+    discussion.comments.push({
+        user: new mongoose.Types.ObjectId(req.user.id),
+        comment,
+        createdAt: new Date()
+    });
 
-    discussion.comments.push({ user: userId, comment, createdAt: new Date()});
     await discussion.save();
+    res.json(discussion);
+});
 
+// ✅ Update a discussion
+export const updateDiscussion = asyncHandler(async (req: AuthRequest, res: Response) => {
+    const { topic, content } = req.body;
+
+    const discussion = await Discussion.findById(req.params.id);
+    if (!discussion) {
+        res.status(404);
+        throw new Error("Discussion not found");
+    }
+
+    if (topic) discussion.topic = topic;
+    if (content) discussion.content = content;
+
+    await discussion.save();
     res.json(discussion);
 });

@@ -18,6 +18,8 @@ export interface IUser extends Document {
     isAdmin?: boolean;
 }
 
+
+
 // mongoose schema for user
 const UserSchema = new Schema<IUser>(
     {

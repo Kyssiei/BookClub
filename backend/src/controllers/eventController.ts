@@ -127,7 +127,9 @@ export const getAllEvents = asyncHandler(async (_req: Request, res: Response) =>
 
 // Get Single Event (Public)
 export const getEventById = asyncHandler(async (req: Request, res: Response) => {
-    const event = await Event.findById(req.params.id).populate("createdBy", "name email");
+    const event = await Event.findById(req.params.id)
+    .populate("createdBy", "name email")
+    .populate("attendees", "name email");
 
     if (!event) {
         res.status(404);
