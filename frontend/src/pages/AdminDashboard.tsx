@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import NavBar from "../components/NavBar";
+import DiscussionComponent from "../components/DiscussionComponent";
 import {
     fetchEvents, createEvent, updateEvent, deleteEvent,
     fetchBooks, createBook, updateBook, deleteBook,
@@ -47,10 +49,18 @@ const AdminDashboard: React.FC = () => {
             await createEvent(eventForm);
         }
         fetchEvents().then(setEvents);
+        setEventForm({ title: "", description: "", date: new Date(), isVirtual: false, location: "", virtualLink: "" });
     };
 
     const handleEventEdit = (event: Event) => {
-        setEventForm(event);
+        setEventForm({
+            title: event.title,
+            description: event.description,
+            date: event.date ? new Date(event.date) : new Date(),
+            isVirtual: event.isVirtual,
+            location: event.location || "",
+            virtualLink: event.virtualLink || "",
+        });
         setEditMode(true);
         setCurrentId(event._id);
     };
@@ -66,6 +76,8 @@ const AdminDashboard: React.FC = () => {
     };
 
     return (
+    <div>
+        <NavBar />
         <div className="admin-dashboard">
             <div className="sidebar">
                 <h2>Admin Dashboard</h2>
@@ -80,6 +92,45 @@ const AdminDashboard: React.FC = () => {
                     <div>
                         <h3>Manage Events</h3>
                         <Calendar onChange={(date) => setSelectedDate(date as Date)} value={selectedDate} />
+
+                        <form onSubmit={handleEventSubmit}>
+                            <input type="text" name="title" value={eventForm.title || ""} 
+                                onChange={(e) => setEventForm({ ...eventForm, title: e.target.value })} 
+                                placeholder="Event Title" required />
+
+                            <textarea name="description" value={eventForm.description || ""} 
+                                onChange={(e) => setEventForm({ ...eventForm, description: e.target.value })} 
+                                placeholder="Event Description" required />
+
+                            <input type="datetime-local" name="date" 
+                                value={eventForm.date ? eventForm.date.toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16)} 
+                                onChange={(e) => setEventForm({ ...eventForm, date: new Date(e.target.value) })} required />
+
+                            <label>
+                                <input type="checkbox" name="isVirtual" checked={eventForm.isVirtual || false} 
+                                    onChange={() => setEventForm({ ...eventForm, isVirtual: !eventForm.isVirtual })} />
+                                Virtual Event
+                            </label>
+
+                            {!eventForm.isVirtual ? (
+                                <input type="text" name="location" value={eventForm.location || ""} 
+                                    onChange={(e) => setEventForm({ ...eventForm, location: e.target.value })} 
+                                    placeholder="Location" />
+                            ) : (
+                                <input type="text" name="virtualLink" value={eventForm.virtualLink || ""} 
+                                    onChange={(e) => setEventForm({ ...eventForm, virtualLink: e.target.value })} 
+                                    placeholder="Virtual Link" />
+                            )}
+
+                            <button type="submit">{editMode ? "Update" : "Add"} Event</button>
+                        </form>
+                        <DiscussionComponent
+                            books={books} 
+                            discussions={discussions} 
+                            createDiscussion={createDiscussion} 
+                            updateDiscussion={updateDiscussion}
+                         />
+
                         <ul>
                             {events.length > 0 ? (
                                 events.map(event => (
@@ -136,6 +187,7 @@ const AdminDashboard: React.FC = () => {
                 )}
             </div>
         </div>
+    </div>
     );
 };
 

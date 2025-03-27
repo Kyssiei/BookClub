@@ -1,4 +1,6 @@
 import { ObjectId } from "mongoose";
+// import mongoose from "mongoose";
+import mongoose from "mongoose"
 
 const API_URL = "http://localhost:3000/api"; // Update this based on your backend
 
@@ -53,9 +55,24 @@ export interface Discussion {
     topic: string;
     content: string;
     createdBy:string | ObjectId;
+    bookId: string;
     comments: { user: ObjectId; comment: string; createdAt: Date }[];
     createdAt: Date;
 }
+
+
+// const userId = new mongoose.Types.ObjectId(req.user?.id); // ✅ Ensure valid ObjectId
+
+// await updateDiscussion(discussionId, {
+//     $push: {
+//         comments: {
+//             user: new mongoose.Types.ObjectId(userId), // ✅ Correct format
+//             comment: Comment,
+//             createdAt: new Date() // ✅ Ensure timestamp is included
+//         }
+//     }
+// });
+
 
 // Helper function for API requests
 const request = async <T>(url: string, method: string = "GET", body?: any): Promise<T> => {
@@ -71,7 +88,20 @@ const request = async <T>(url: string, method: string = "GET", body?: any): Prom
 // Events API
 export const fetchEvents = (): Promise<Event[]> => request<Event[]>(`${API_URL}/events`);
 export const createEvent = (data: Partial<Event>): Promise<Event> => request<Event>(`${API_URL}/events`, "POST", data);
-export const updateEvent = (id: string, data: Partial<Event>): Promise<Event> => request<Event>(`${API_URL}/events/${id}`, "PUT", data);
+export const updateEvent = async (id: string, updatedEvent: Partial<Event>) => {
+    const token = localStorage.getItem("token"); // Get stored token
+
+    const response = await fetch(`${API_URL}/events/${id}`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(updatedEvent)
+    });
+    if (!response.ok) throw new Error("Failed to update event");
+    return response.json();
+};
 export const deleteEvent = (id: string): Promise<void> => request<void>(`${API_URL}/events/${id}`, "DELETE");
 
 // Books API
@@ -98,8 +128,20 @@ export const fetchUsers = async (): Promise<User[]> => {
 
 export const deleteUser = (id: string): Promise<void> => request<void>(`${API_URL}/users/${id}`, "DELETE");
 
+
+
 // Discussions API
 export const fetchDiscussions = (): Promise<Discussion[]> => request<Discussion[]>(`${API_URL}/discussions`);
-export const createDiscussion = (data: Partial<Discussion>): Promise<Discussion> => request<Discussion>(`${API_URL}/discussions`, "POST", data);
-export const updateDiscussion = (id: string, data: Partial<Discussion>): Promise<Discussion> => request<Discussion>(`${API_URL}/discussions/${id}`, "PUT", data);
+export const createDiscussion = async (data: Partial<Discussion>): Promise<void> => {
+    await request<Discussion>(`${API_URL}/discussions`, "POST", data);
+}
+
+// Ensure updateDiscussion is defined before using it
+export const updateDiscussion = async (id: string, data: Partial<Discussion>): Promise<Discussion> => {
+    return request<Discussion>(`${API_URL}/${id}`, "PUT", data);
+};
+
+// Now call updateDiscussion AFTER declaration
+
+
 export const deleteDiscussion = (id: string): Promise<void> => request<void>(`${API_URL}/discussions/${id}`, "DELETE");

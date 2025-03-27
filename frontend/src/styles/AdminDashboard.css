@@ -1,104 +1,195 @@
-/* === Admin Dashboard Styles === */
+
+body {
+    background: url('../assets/redhead.png') no-repeat center center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+
+   :root {
+    --primary-color: #ff69b4; /* Hot Pink */
+    --secondary-color: #ffdd57; /* Pastel Yellow */
+    --tertiary-color: #7b68ee; /* Soft Purple */
+    --background-color: #fdf5f8; 
+    --text-color: #333;
+    --card-bg: #fff;
+    --button-hover: #ff85c1;
+    --border-radius: 15px;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 .admin-dashboard {
     display: flex;
     height: 100vh;
-    background-color: #f4f4f4;
-    font-family: Arial, sans-serif;
+    width: 100%;
+    max-width: 1400px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    overflow: hidden;
 }
 
-/* === Sidebar Navigation === */
+/* Sidebar Styling */
 .sidebar {
     width: 250px;
-    background-color: #222;
+    background: var(--primary-color);
     color: white;
-    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    padding: 20px;
 }
 
 .sidebar h2 {
-    font-size: 20px;
+    font-size: 22px;
     margin-bottom: 20px;
 }
 
 .sidebar button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    background: #444;
+    background-color: var(--tertiary-color);
     color: white;
-    font-size: 16px;
+    border: none;
+    padding: 12px;
+    margin: 10px 0;
+    width: 100%;
+    border-radius: 10px;
     cursor: pointer;
-    transition: background 0.3s;
-    text-align: left;
+    transition: 0.3s;
+    font-size: 16px;
 }
 
 .sidebar button:hover {
-    background: #555;
+    background-color: var(--button-hover);
 }
 
-/* === Main Content === */
+/* Main Content */
 .main-content {
     flex: 1;
-    padding: 20px;
+    padding: 30px;
     overflow-y: auto;
 }
 
 h3 {
-    font-size: 22px;
-    margin-bottom: 10px;
-}
-
-/* === Form Styling === */
-form {
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    color: var(--primary-color);
     margin-bottom: 20px;
 }
 
-input, textarea, select {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
+/* Cards for Data Sections */
+.card {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    transition: transform 0.3s;
 }
 
-button {
-    padding: 10px 15px;
-    background: #007bff;
-    border: none;
+.card:hover {
+    transform: scale(1.02);
+}
+
+/* Forms */
+form {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+}
+
+form input,
+form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+form button {
+    width: 100%;
+    padding: 12px;
+    background: var(--primary-color);
     color: white;
+    border: none;
     font-size: 16px;
+    margin-top: 15px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     transition: 0.3s;
 }
 
-button:hover {
-    background: #0056b3;
+form button:hover {
+    background-color: var(--button-hover);
 }
 
-/* === Table / List Styling === */
+/* Lists */
 ul {
     list-style: none;
     padding: 0;
 }
 
 li {
-    background: white;
-    padding: 15px;
+    background: var(--card-bg);
     margin: 10px 0;
+    padding: 15px;
+    border-radius: var(--border-radius);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 li button {
-    margin-left: 10px;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    transition: 0.3s;
+}
+
+li button:first-of-type {
+    background: var(--tertiary-color);
+    color: white;
+}
+
+li button:first-of-type:hover {
+    background: #6a5acd;
+}
+
+li button:last-of-type {
+    background: #dc3545;
+    color: white;
+}
+
+li button:last-of-type:hover {
+    background: #c82333;
+}
+
+/* Calendar Styling */
+.react-calendar {
+    max-width: 100%;
+    background: white;
+    border-radius: var(--border-radius);
+    padding: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
 }
