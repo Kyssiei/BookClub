@@ -21,12 +21,15 @@ const Homepage = () => {
             <p id="HeaderP">Join Our Book Club</p>
             <JoinButton onClick={() => console.log("Button Clicked")}/>
               <br />
+      
           </div>
           <div>
             <img style={{height:"auto", width:"50vw"}} src={image} alt="" />
           </div>
         </div>
         <JoinPage />
+        <br />
+        <br />
         <BookSearch />
         
       </div>

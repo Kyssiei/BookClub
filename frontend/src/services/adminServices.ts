@@ -132,9 +132,21 @@ export const deleteUser = (id: string): Promise<void> => request<void>(`${API_UR
 
 // Discussions API
 export const fetchDiscussions = (): Promise<Discussion[]> => request<Discussion[]>(`${API_URL}/discussions`);
+// export const createDiscussion = async (data: Partial<Discussion>): Promise<void> => {
+//     await request<Discussion>(`${API_URL}/discussions`, "POST", data);
+// }
+
 export const createDiscussion = async (data: Partial<Discussion>): Promise<void> => {
-    await request<Discussion>(`${API_URL}/discussions`, "POST", data);
-}
+    console.log("Sending request to create discussion:", data); // ✅ Debug log
+
+    try {
+        await request<Discussion>(`${API_URL}/discussions`, "POST", data);
+        console.log("Discussion successfully created!");
+    } catch (error) {
+        console.error("API error:", error);
+    }
+};
+
 
 // Ensure updateDiscussion is defined before using it
 export const updateDiscussion = async (id: string, data: Partial<Discussion>): Promise<Discussion> => {

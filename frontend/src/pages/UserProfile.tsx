@@ -3,6 +3,8 @@ import Calendar from "react-calendar"; // Install: npm install react-calendar
 import "react-calendar/dist/Calendar.css";
 import "../styles/UserProfile.css"; // Custom styles
 import NavBar from "../components/NavBar";
+import img from "../assets/aura wallpaper.jpg"
+import profile from "../assets/Untitled design.jpg"
 
 const UserProfile = () => {
   const [date, setDate] = useState<Date | null>(new Date());
@@ -75,8 +77,10 @@ const UserProfile = () => {
         {/* RIGHT: Profile & Bookshelf */}
         <div className="profile-section">
           <div className="profile-header">
-            <div className="banner"></div>
-            <div className="profile-pic"></div>
+            <img className="banner" src={img} alt="" />
+            {/* <img className="banner"></div> */}
+            <img className="profile-pic" src={profile} alt="" />
+            {/* <div className="profile-pic"></div> */}
             <h3>Kayla Gentry</h3>
             <p className="bio">Just a girl who likes to read</p>
           </div>
