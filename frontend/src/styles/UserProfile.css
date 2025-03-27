@@ -1,0 +1,126 @@
+/* General Layout */
+.user-profile {
+    font-family: "Times New Roman", serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.profile-title {
+    font-size: 32px;
+}
+
+/* Profile Container */
+.profile-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    border: 2px solid black;
+    padding: 20px;
+    border-radius: 15px;
+}
+
+/* LEFT: Calendar */
+.weekly-calendar {
+    flex: 1;
+    padding: 20px;
+    border-right: 2px solid black;
+}
+
+.react-calendar {
+    width: 100%;
+    border-radius: 10px;
+}
+
+/* MIDDLE: Notes & To-Do */
+.notes-todo {
+    flex: 1;
+    padding: 20px;
+    border-right: 2px solid black;
+}
+
+.notes-box {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+/* To-Do List */
+.todo-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.todo-container input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid black;
+}
+
+.todo-container button {
+    padding: 8px;
+    background: pink;
+    border: none;
+    cursor: pointer;
+}
+
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+.todo-list li {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+/* RIGHT: Profile Section */
+.profile-section {
+    flex: 1;
+    padding: 20px;
+    background: #f2f2f2;
+}
+
+.banner {
+    width: 100%;
+    height: 80px;
+    background: pink;
+    border-radius: 10px;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    background: white;
+    border-radius: 50%;
+    margin: -40px auto 10px;
+    border: 2px solid black;
+}
+
+/* Bio */
+.bio {
+    font-size: 14px;
+    color: gray;
+}
+
+/* Bookshelves */
+.bookshelf {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.book {
+    width: 50px;
+    height: 70px;
+    background: lightgray;
+    margin: 5px;
+    border-radius: 5px;
+}
+
+.bookshelf.small .book {
+    height: 50px;
+}

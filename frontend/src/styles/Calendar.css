@@ -1,0 +1,57 @@
+/* Calendar Container */
+.react-calendar {
+    width: 100%;
+    max-width: 500px;
+    background: #ffffff;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+  
+  /* Calendar Header (Month & Year) */
+  .react-calendar__navigation {
+    background: #ffcccc;
+    border-radius: 5px;
+  }
+  
+  .react-calendar__navigation button {
+    color: black;
+    font-weight: bold;
+  }
+  
+  /* Weekday Names */
+  .react-calendar__month-view__weekdays {
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+  }
+  
+  /* Dates */
+  .react-calendar__tile {
+    padding: 10px;
+    border-radius: 5px;
+    transition: all 0.3s;
+  }
+  
+  /* Selected Date */
+  .react-calendar__tile--active {
+    background: #ff8c8c !important;
+    color: white !important;
+  }
+  
+  /* Disable Past Dates */
+  .react-calendar__tile--disabled {
+    background: #f0f0f0 !important;
+    color: #bbb !important;
+    pointer-events: none;
+  }
+  
+  /* Highlight Event Days */
+  .react-calendar__tile.highlight-event {
+    background-color: #ffcccc !important;
+    font-weight: bold;
+    border-radius: 5px;
+  }
+  

@@ -1,155 +1,140 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {
+    fetchEvents, createEvent, updateEvent, deleteEvent,
+    fetchBooks, createBook, updateBook, deleteBook,
+    fetchUsers, deleteUser,
+    fetchDiscussions, createDiscussion, updateDiscussion, deleteDiscussion,
+    Event, Book, User, Discussion
+} from "../services/adminServices";
 import "../styles/AdminDashboard.css";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 
-const AdminDashboard = () => {
-    const navigate = useNavigate();
-    const [users, setUsers] = useState([]);
-    const [books, setBooks] = useState([]);
-    const [error, setError] = useState("");
+const AdminDashboard: React.FC = () => {
+    const [events, setEvents] = useState<Event[]>([]);
+    const [books, setBooks] = useState<Book[]>([]);
+    const [users, setUsers] = useState<User[]>([]);
+    const [discussions, setDiscussions] = useState<Discussion[]>([]);
+    const [activeTab, setActiveTab] = useState<string>("events");
+    const [editMode, setEditMode] = useState<boolean>(false);
+    const [currentId, setCurrentId] = useState<string | null>(null);
+    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
 
+    const [eventForm, setEventForm] = useState<Partial<Event>>({ title: "", description: "", date: new Date(), isVirtual: false });
+    const [bookForm, setBookForm] = useState<Partial<Book>>({ title: "", author: "", genre: "" });
+    const [discussionForm, setDiscussionForm] = useState<Partial<Discussion>>({ createdBy: "", topic: "" });
+
+    // Fetch Data when the component loads or when the activeTab changes
     useEffect(() => {
-        fetchUsers();
-        fetchBooks();
-    }, []);
+        if (activeTab === "events") fetchEvents().then(setEvents);
+        if (activeTab === "books") fetchBooks().then(setBooks);
+        if (activeTab === "users") {
+            fetchUsers().then(users => {
+                console.log("Fetched Users:", users); // Debugging Log
+                setUsers(users);
+            }).catch(error => console.error("Error fetching users:", error));
+        };
+        if (activeTab === "discussions") fetchDiscussions().then(setDiscussions);
+    }, [activeTab]);
 
-    // Fetch Users (Admin Only)
-    const fetchUsers = async () => {
-        try {
-            const token = localStorage.getItem("token"); // Ensure token is stored
-    
-            if (!token) {
-                throw new Error("No token found, please login");
-            }
-    
-            const response = await fetch("http://localhost:3000/api/users", {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}` // 🔥 Include token
-                }
-            });
-    
-            if (!response.ok) {
-                throw new Error("Failed to fetch users");
-            }
-    
-            const data = await response.json();
-            console.log("Fetched Users:", data);
-            setUsers(data);
-        } catch (error) {
-            console.error("Error fetching users:", error);
+    const handleEventSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (editMode && currentId) {
+            await updateEvent(currentId, eventForm);
+            setEditMode(false);
+            setCurrentId(null);
+        } else {
+            await createEvent(eventForm);
         }
+        fetchEvents().then(setEvents);
     };
-    
 
-    // Fetch Books
-    const fetchBooks = async () => {
-        try {
-            const response = await fetch("http://localhost:3000/api/books", {
-                method: "GET",
-            });
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.message || "Error fetching books");
-            setBooks(data);
-        } catch (err: any) {
-            setError(err.message);
-        }
+    const handleEventEdit = (event: Event) => {
+        setEventForm(event);
+        setEditMode(true);
+        setCurrentId(event._id);
+    };
+
+    const handleEventDelete = async (id: string) => {
+        await deleteEvent(id);
+        fetchEvents().then(setEvents);
+    };
+
+    const handleUserDelete = async (id: string) => {
+        await deleteUser(id);
+        fetchUsers().then(setUsers);
     };
 
     return (
-        <div className="admin-container">
-            {/* Sidebar */}
-            <aside className="admin-sidebar">
-                <h2>Admin Panel</h2>
-                <nav>
-                    <ul>
-                        <li><a href="#">Dashboard</a></li>
-                        <li><a href="#">Users</a></li>
-                        <li><a href="#">Books</a></li>
-                        <li><a href="#">Events</a></li>
-                        <li><a href="#">Logout</a></li>
-                    </ul>
-                </nav>
-            </aside>
+        <div className="admin-dashboard">
+            <div className="sidebar">
+                <h2>Admin Dashboard</h2>
+                <button onClick={() => setActiveTab("events")}>Manage Events</button>
+                <button onClick={() => setActiveTab("books")}>Manage Books</button>
+                <button onClick={() => setActiveTab("users")}>Manage Users</button>
+                <button onClick={() => setActiveTab("discussions")}>Manage Discussions</button>
+            </div>
 
-            {/* Main Content */}
-            <main className="admin-main">
-                <header className="admin-header">
-                    <h1>Welcome, Admin</h1>
-                    <p>Manage users and books effectively.</p>
-                </header>
-
-                {error && <p className="admin-error">{error}</p>}
-
-                {/* Stats Section */}
-                <section className="admin-stats">
-                    <div className="stat-card">
-                        <h3>Total Users</h3>
-                        <p>{users.length}</p>
+            <div className="main-content">
+                {activeTab === "events" && (
+                    <div>
+                        <h3>Manage Events</h3>
+                        <Calendar onChange={(date) => setSelectedDate(date as Date)} value={selectedDate} />
+                        <ul>
+                            {events.length > 0 ? (
+                                events.map(event => (
+                                    <li key={event._id}>
+                                        {event.title} - {new Date(event.date).toLocaleDateString()}
+                                        <button onClick={() => handleEventEdit(event)}>Edit</button>
+                                        <button onClick={() => handleEventDelete(event._id)}>Delete</button>
+                                    </li>
+                                ))
+                            ) : (
+                                <p>No events found.</p>
+                            )}
+                        </ul>
                     </div>
-                    <div className="stat-card">
-                        <h3>Total Books</h3>
-                        <p>{books.length}</p>
+                )}
+
+                {activeTab === "users" && (
+                    <div>
+                        <h3>Manage Users</h3>
+                        <ul className="user-list">
+                            {users.length > 0 ? (
+                                users.map(user => (
+                                    <li key={user._id} className="user-item">
+                                        <div>
+                                            <strong>{user.name}</strong> - {user.email}
+                                        </div>
+                                        <button onClick={() => handleUserDelete(user._id)}>Delete</button>
+                                    </li>
+                                ))
+                            ) : (
+                                <p>No users found.</p>
+                            )}
+                        </ul>
                     </div>
-                </section>
+                )}
 
-                {/* User Management */}
-                <section className="admin-table">
-                    <h2>Manage Users</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {users.map((user: any) => (
-                                <tr key={user._id}>
-                                    <td>{user.name}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.isAdmin ? "Admin" : "User"}</td>
-                                    <td>
-                                        <button className="admin-btn">Edit</button>
-                                        <button className="admin-btn delete">Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </section>
-
-                {/* Book Management */}
-                <section className="admin-table">
-                    <h2>Manage Books</h2>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Genre</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {books.map((book: any) => (
-                                <tr key={book._id}>
-                                    <td>{book.title}</td>
-                                    <td>{book.author}</td>
-                                    <td>{book.genre}</td>
-                                    <td>
-                                        <button className="admin-btn">Edit</button>
-                                        <button className="admin-btn delete">Delete</button>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </section>
-            </main>
+                {activeTab === "books" && (
+                    <div>
+                        <h3>Manage Books</h3>
+                        <ul className="book-list">
+                            {books.length > 0 ? (
+                                books.map(book => (
+                                    <li key={book._id} className="book-item">
+                                        <div>
+                                            <strong>{book.title}</strong> by {book.author}
+                                        </div>
+                                    </li>
+                                ))
+                            ) : (
+                                <p>No books found.</p>
+                            )}
+                        </ul>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };

@@ -15,7 +15,7 @@ const JoinButton: React.FC<JoinButtonProps> = ({ onClick }) => {
             border:"1px solid black", 
             backgroundColor:"rgb(255, 133, 204)",
             padding:"15px",
-            fontSize:"1.5em",
+            fontSize:"1em",
             color:"white"
         }}
         >Join Now!</button>

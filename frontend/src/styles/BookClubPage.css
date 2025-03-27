@@ -1,0 +1,145 @@
+.book-club {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  }
+  
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  }
+  
+.calendar-section,
+.discussion-board,
+.voting-section {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+  }
+  
+  textarea {
+    width: 100%;
+    height: 60px;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    background: #32ae43;
+    color: white;
+    padding: 15px;
+    border: 1 solid black;
+    border-radius: 50px;
+    cursor: pointer;
+    width: 150px;
+    font-size: 1em;
+  }
+  
+  button:hover {
+    background: #ff95ca;
+  }
+  
+  .comments-list li {
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    list-style: none;
+  }
+  
+  .comments-list li button {
+    background: red;
+    margin-left: 10px;
+  }
+  
+  .voting-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .voting-section li {
+    background: white;
+    padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+/* Style calendar tiles with events */
+.react-calendar__tile.highlight-event {
+  background-color: #ffcccc;
+  border-radius: 5px;
+  font-weight: bold;
+  color: black;
+}
+
+
+/* *============ CALENDAR ============= */
+
+/* Calendar Container */
+.react-calendar {
+  width: 100%;
+  max-width: 900px;
+  background: #ffffff;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); */
+  padding: 10px;
+}
+
+/* Calendar Header (Month & Year) */
+.react-calendar__navigation {
+  background: #ff7b00;
+  border-radius: 5px;
+}
+
+.react-calendar__navigation button {
+  color: rgb(255, 255, 255);
+  font-weight: bold;
+}
+
+/* Weekday Names */
+.react-calendar__month-view__weekdays {
+  color: #ff8040;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+/* Dates */
+.react-calendar__tile {
+  padding: 10px;
+  border-radius: 5px;
+  transition: all 0.3s;
+  color: #32ae43; 
+}
+
+/* Selected Date */
+.react-calendar__tile--active {
+  background: #ff67b8 !important;
+  color: rgb(255, 255, 255) !important;
+}
+
+/* Disable Past Dates */
+.react-calendar__tile--disabled {
+  background: #da4848 !important;
+  color: #ece340 !important;
+  pointer-events: none;
+}
+
+/* Highlight Event Days */
+.react-calendar__tile.highlight-event {
+  background-color: #ffcccc !important;
+  font-weight: bold;
+  border-radius: 5px;
+}
+/* Change weekday name colors */
+.react-calendar__month-view__weekdays {
+  color: #ff69b4 !important; /* Change to any color you like */
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+  

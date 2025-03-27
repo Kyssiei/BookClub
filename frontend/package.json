@@ -10,10 +10,12 @@
   },
   "dependencies": {
     "react": "^19.0.0",
+    "react-calendar": "^5.1.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.0"
   },
   "devDependencies": {
+    "@types/mongoose": "^5.11.96",
     "@vitejs/plugin-react": "^4.3.4",
     "vite": "^6.2.0"
   }
