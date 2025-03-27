@@ -25,7 +25,7 @@ Our book club is more than just reading it's about community, discussion, and pe
 ## 👩🏽‍💻 Technologies Used
 This project is built using modern web development technologies:
 - **Frontend**: React.js, TypeScript, HTML, CSS
-- **Backend**: Node.js, Express.js, MongoDB
+- **Backend**: Node.js, Express.js, MongoDB (with TypeScript)
 - **Authentication**: JSON Web Tokens (JWT), bcrypt for password hashing
 - **Database**: MongoDB with Mongoose ORM
 - **External API**: Google Books API for book search and retrieval
